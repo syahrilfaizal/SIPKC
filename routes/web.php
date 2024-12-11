@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +24,12 @@ Route::get('/form', function () {
 })->name('form');
 
 Route::get('/login', function () {
-    return view('partials.login'); // Mengarahkan ke login.blade.php
+    return view('auth.login'); // Mengarahkan ke login.blade.php
 })->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/register', function () {
-    return view('partials.register'); // Mengarahkan ke login.blade.php
+    return view('auth.register'); // Mengarahkan ke login.blade.php
 })->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
