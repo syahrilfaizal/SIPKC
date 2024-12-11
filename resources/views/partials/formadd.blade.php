@@ -1,47 +1,78 @@
+<!-- Tambahkan ini di dalam <head> untuk memasukkan CSS Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
 <style>
+    /* CSS yang sudah Anda miliki */
     .btn-create-post {
         display: inline-flex;
         align-items: center;
         justify-content: center;
         background-color: #4caf50;
-        /* Warna hijau */
         color: #fff;
-        /* Warna teks */
         font-size: 14px;
         font-weight: 600;
         padding: 10px;
-        /* Padding tombol */
         border-radius: 5px;
-        /* Sudut melengkung */
         border: none;
-        /* Hilangkan border */
         cursor: pointer;
-        /* Ubah kursor menjadi pointer */
         width: 100%;
-        /* Lebar tombol mengikuti form */
         transition: background-color 0.3s ease, transform 0.2s ease;
-        /* Efek transisi */
     }
 
     .btn-create-post i {
         font-size: 16px;
-        /* Ukuran ikon */
         margin-right: 8px;
-        /* Jarak ikon dengan teks */
     }
 
     .btn-create-post:hover {
         background-color: #45a049;
-        /* Warna hijau lebih gelap saat hover */
         transform: scale(1.02);
-        /* Sedikit membesar saat hover */
     }
 
     .btn-create-post:active {
         transform: scale(0.98);
-        /* Sedikit mengecil saat ditekan */
+    }
+
+    /* Tombol Reset Marker */
+    .btn-remove-marker {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f44336;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        margin-top: 10px;
+    }
+
+    .btn-remove-marker i {
+        font-size: 16px;
+        margin-right: 8px;
+    }
+
+    .btn-remove-marker:hover {
+        background-color: #d32f2f;
+        transform: scale(1.02);
+    }
+
+    .btn-remove-marker:active {
+        transform: scale(0.98);
+    }
+
+    /* Gaya untuk peta */
+    #map {
+        height: 300px;
+        width: 100%;
+        margin-top: 10px;
     }
 </style>
+
 <div class="card w-100 shadow-xss rounded-xxl border-0 ps-4 pt-4 pe-4 pb-3 mb-3">
     <form action="#" method="post" enctype="multipart/form-data">
         <div class="card-body p-0 mt-3 position-relative">
@@ -62,9 +93,13 @@
         </div>
         <div class="card-body p-0 mt-3">
             <label for="map" class="font-xssss fw-600 text-grey-500">Select Location:</label>
-            <div id="map" style="height: 300px; width: 100%;"></div>
+            <div id="map"></div>
             <input type="hidden" id="latitude" name="latitude">
             <input type="hidden" id="longitude" name="longitude">
+            <!-- Tombol untuk mereset marker -->
+            <button type="button" id="resetMarkerBtn" class="btn-remove-marker" style="display: none;">
+                <i class="feather-trash-2 me-2"></i>Reset Marker
+            </button>
         </div>
         <div class="card-body p-0">
             <button type="submit" class="btn-create-post">
@@ -73,36 +108,112 @@
         </div>
     </form>
 </div>
+
+@push('styles')
+    <!-- Leaflet CSS sudah ditambahkan di atas, jadi tidak perlu di sini -->
+@endpush
+
 @push('scripts')
-<script>
-    // Check if geolocation is available
-    if (navigator.geolocation) {
-        // Get the user's current position
-        navigator.geolocation.getCurrentPosition(
-            function(position) {
-                // Successfully obtained position
-                var latitude = position.coords.latitude;
-                var longitude = position.coords.longitude;
-                
-                // Display the coordinates or use them as needed
-                console.log("Latitude: " + latitude);
-                console.log("Longitude: " + longitude);
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-                // You can also update form inputs or HTML elements with the coordinates
-                document.getElementById('latitude').value = latitude;
-                document.getElementById('longitude').value = longitude;
-            },
-            function(error) {
-                // Handle error if the user denies geolocation or there is an issue
-                console.error("Error obtaining location: ", error);
-                alert("Unable to retrieve your location. Please make sure your location services are enabled.");
+    <script>
+        // Variabel global untuk marker, peta, dan koordinat awal
+        let map;
+        let marker;
+        let initialLatitude;
+        let initialLongitude;
+
+        // Fungsi untuk menginisialisasi peta
+        function initMap(latitude, longitude) {
+            // Simpan koordinat awal
+            initialLatitude = latitude;
+            initialLongitude = longitude;
+
+            // Inisialisasi peta
+            map = L.map('map').setView([latitude, longitude], 13);
+
+            // Tambahkan tile layer (menggunakan OpenStreetMap)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Tambahkan marker pada posisi pengguna
+            addMarker(latitude, longitude);
+
+            // Event listener untuk dblclick pada peta
+            map.on('dblclick', function(e) {
+                // Koordinat klik ganda
+                const lat = e.latlng.lat;
+                const lng = e.latlng.lng;
+                // Tambah marker di lokasi baru (akan hapus marker lama jika ada)
+                addMarker(lat, lng);
+            });
+        }
+
+        // Fungsi untuk menambahkan marker di lokasi tertentu
+        function addMarker(latitude, longitude) {
+            // Jika sudah ada marker sebelumnya, hapus
+            if (marker) {
+                map.removeLayer(marker);
+                marker = null;
             }
-        );
-    } else {
-        // Geolocation is not supported by the browser
-        alert("Geolocation is not supported by this browser.");
-    }
-</script>
 
+            // Tambahkan marker baru
+            marker = L.marker([latitude, longitude]).addTo(map)
+                .bindPopup('Your Location')
+                .openPopup();
 
+            // Update nilai hidden field
+            document.getElementById('latitude').value = latitude;
+            document.getElementById('longitude').value = longitude;
+
+            // Tampilkan tombol reset marker
+            document.getElementById('resetMarkerBtn').style.display = 'inline-flex';
+        }
+
+        // Fungsi untuk mereset marker ke posisi awal
+        function resetMarker() {
+            // Tambahkan marker di koordinat awal
+            addMarker(initialLatitude, initialLongitude);
+        }
+
+        // Tambahkan event listener untuk tombol reset marker
+        document.getElementById('resetMarkerBtn').addEventListener('click', resetMarker);
+
+        // Fungsi untuk menangani perubahan file
+        function handleFileChange(input) {
+            if (input.files && input.files[0]) {
+                const fileName = input.files[0].name;
+                document.getElementById('fileLabel').textContent = fileName;
+            } else {
+                document.getElementById('fileLabel').textContent = 'Choose File';
+            }
+        }
+
+        // Cek apakah geolocation tersedia
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    // Inisialisasi peta dengan koordinat yang lebih akurat
+                    initMap(latitude, longitude);
+                },
+                function(error) {
+                    console.error("Error obtaining location: ", error);
+                    alert("Unable to retrieve your location. Please make sure your location services are enabled.");
+                    initMap(0, 0);
+                },
+                {
+                    enableHighAccuracy: true,   
+                    timeout: 10000,             
+                    maximumAge: 0              
+                }
+            );
+        } else {
+            alert("Geolocation is not supported by this browser.");
+            initMap(0, 0);
+        }
+    </script>
 @endpush

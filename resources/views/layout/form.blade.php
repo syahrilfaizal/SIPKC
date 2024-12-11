@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ asset('css/emoji.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <link rel="stylesheet" href="{{ asset('css/lightbox.css') }}">
+    @stack('styles')
 </head>
 <body class="color-theme-blue mont-font">
 
