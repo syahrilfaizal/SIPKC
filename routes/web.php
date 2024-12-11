@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ReportController;
+use App\Models\Report;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +17,11 @@ use App\Http\Controllers\Auth\RegisterController;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [ReportController::class, 'index'])->name('reports.index');
 
-Route::get('/form', function () {
-    return view('layout.form');
-})->name('form');
+Route::get('/form', [ReportController::class, 'create'])->name('form');
+Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
+
 
 Route::get('/login', function () {
     return view('auth.login'); // Mengarahkan ke login.blade.php

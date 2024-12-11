@@ -6,7 +6,7 @@
                 <ul class="mb-1 top-content">
                     <li class="logo d-none d-xl-block d-lg-block"></li>
                     <li>
-                        <a href="default.html" class="nav-content-bttn open-font">
+                        <a href="{{ route('reports.index') }}" class="nav-content-bttn open-font">
                             <i class="feather-home btn-round-md bg-blue-gradiant me-3"></i>
                             <span>Feeds</span>
                         </a>

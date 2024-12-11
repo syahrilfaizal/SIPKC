@@ -1,5 +1,7 @@
 <!-- Tambahkan ini di dalam <head> untuk memasukkan CSS Leaflet -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<!-- Select2 CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
 <style>
     /* CSS yang sudah Anda miliki */
@@ -74,13 +76,15 @@
 </style>
 
 <div class="card w-100 shadow-xss rounded-xxl border-0 ps-4 pt-4 pe-4 pb-3 mb-3">
-    <form action="#" method="post" enctype="multipart/form-data">
+    
+    <form action="{{ route('reports.store') }}" method="post" enctype="multipart/form-data">
+        @csrf
         <div class="card-body p-0 mt-3 position-relative">
             <figure class="avatar position-absolute ms-2 mt-1 top-5">
                 <img src="images/user-8.png" alt="image" class="shadow-sm rounded-circle w30">
             </figure>
             <textarea name="message"
-                class="h100 bor-0 w-100 rounded-xxl p-2 ps-5 font-xssss text-grey-500 fw-500 border-light-md theme-dark-bg"
+                class="h100 bor-0 w-100 rounded-xxl p-2 ps-5 font-xssss  fw-500 border-light-md theme-dark-bg"
                 cols="30" rows="4" placeholder="Add a description..."></textarea>
         </div>
         <div class="card-body p-0 mt-3">
@@ -90,7 +94,13 @@
                 <input type="file" name="image" accept="image/*" style="display: none;"
                     onchange="handleFileChange(this)">
             </label>
+            <!-- Elemen untuk menampilkan pratinjau gambar -->
+            <div id="imagePreview" style="margin-top: 10px; text-align: center;">
+                <img id="previewImg" src="" alt="Image Preview"
+                    style="max-width: 100%; max-height: 200px; display: none; border: 1px solid #ddd; border-radius: 5px; padding: 5px;">
+            </div>
         </div>
+
         <div class="card-body p-0 mt-3">
             <label for="map" class="font-xssss fw-600 text-grey-500">Select Location:</label>
             <div id="map"></div>
@@ -101,9 +111,24 @@
                 <i class="feather-trash-2 me-2"></i>Reset Marker
             </button>
         </div>
-        <div class="card-body p-0">
+        <div class="card-body p-0 mt-3 position-relative">
+
+            <textarea name="address" class="h100 bor-0 w-100 rounded-xxl p-2 ps-5 font-xssss  fw-500 border-light-md theme-dark-bg"
+                cols="30" rows="4" placeholder="Alamat"></textarea>
+        </div>
+        <div class="card-body p-0 mt-3">
+            <label for="tags" class="font-xssss fw-600 text-grey-500">Select Tags:</label>
+            <select id="tags" name="tags[]" multiple class="form-control"
+                style="width: 100%; padding: 10px; border-radius: 5px;">
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="card-body p-0 mt-3">
             <button type="submit" class="btn-create-post">
-                <i class="feather-edit-3 me-2"></i>Create Post
+                <i class="feather-edit-3 me-2"></i>Buat Laporan
             </button>
         </div>
     </form>
@@ -131,11 +156,13 @@
             initialLongitude = longitude;
 
             // Inisialisasi peta
-            map = L.map('map').setView([latitude, longitude], 13);
+            map = L.map('map').setView([latitude, longitude], 16);
 
             // Tambahkan tile layer (menggunakan OpenStreetMap)
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors'
+                attribution: '&copy; OpenStreetMap contributors',
+                maxZoom: 18,
+                minZoom: 13
             }).addTo(map);
 
             // Tambahkan marker pada posisi pengguna
@@ -170,6 +197,8 @@
 
             // Tampilkan tombol reset marker
             document.getElementById('resetMarkerBtn').style.display = 'inline-flex';
+
+            getAddressFromCoordinates(latitude, longitude);
         }
 
         // Fungsi untuk mereset marker ke posisi awal
@@ -191,6 +220,21 @@
             }
         }
 
+        // Fungsi untuk mendapatkan alamat dari koordinat
+        function getAddressFromCoordinates(lat, lng) {
+            fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
+                .then(response => response.json())
+                .then(data => {
+                    const address = data.display_name;
+                    document.querySelector('textarea[name="address"]').value = address;
+                })
+                .catch(error => {
+                    console.error("Error fetching address: ", error);
+                    alert("Unable to fetch address. Please try again.");
+                });
+        }
+
+
         // Cek apakah geolocation tersedia
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -204,11 +248,10 @@
                     console.error("Error obtaining location: ", error);
                     alert("Unable to retrieve your location. Please make sure your location services are enabled.");
                     initMap(0, 0);
-                },
-                {
-                    enableHighAccuracy: true,   
-                    timeout: 10000,             
-                    maximumAge: 0              
+                }, {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
                 }
             );
         } else {
@@ -216,4 +259,40 @@
             initMap(0, 0);
         }
     </script>
+    <script>
+        // Fungsi untuk menangani perubahan file
+        function handleFileChange(input) {
+            const fileLabel = document.getElementById('fileLabel');
+            const previewImg = document.getElementById('previewImg');
+
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                fileLabel.textContent = file.name;
+
+                // Buat URL untuk pratinjau gambar
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                fileLabel.textContent = 'Choose File';
+                previewImg.src = '';
+                previewImg.style.display = 'none';
+            }
+        }
+    </script>
+    <!-- Select2 JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#tags').select2({
+            placeholder: "Choose categories",
+            allowClear: true
+        });
+    });
+</script>
+
 @endpush
