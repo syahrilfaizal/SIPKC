@@ -12,11 +12,12 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="add_pengaduan.html" class="nav-content-bttn open-font">
-                                    <i class="feather-edit btn-round-md bg-red-gradiant me-3"></i>
-                                    <span>Post Pengaduan</span>
-                                </a>
-                            </li>
+                            <a href="{{ route('form') }}" class="nav-content-bttn open-font">
+    <i class="feather-edit btn-round-md bg-red-gradiant me-3"></i>
+    <span>Post Pengaduan</span>
+</a>
+
+
                             <li>
                                 <a href="default.html" class="nav-content-bttn open-font">
                                     <i class="feather-eye btn-round-md bg-gold-gradiant me-3"></i>

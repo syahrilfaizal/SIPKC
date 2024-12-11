@@ -12,6 +12,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon.png') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/emoji.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <link rel="stylesheet" href="{{ asset('css/lightbox.css') }}">
 </head>
 <body class="color-theme-blue mont-font">
@@ -27,7 +28,7 @@
 
         <!-- Main Content -->
         <div class="main-content right-chat-active">
-            @yield('content')
+            @include('partials.formadd') <!-- Konten Utama -->
         </div>
 
         <!-- Right Chat -->
@@ -39,6 +40,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/plugin.js') }}"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="{{ asset('js/lightbox.js') }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
     @stack('scripts')
