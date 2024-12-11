@@ -20,3 +20,11 @@ Route::get('/', function () {
 Route::get('/form', function () {
     return view('layout.form');
 })->name('form');
+
+Route::get('/login', function () {
+    return view('partials.login'); // Mengarahkan ke login.blade.php
+})->name('login');
+
+Route::get('/register', function () {
+    return view('partials.register'); // Mengarahkan ke login.blade.php
+})->name('register');
