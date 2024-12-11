@@ -56,15 +56,16 @@
                         <a href="forgot.html" class="fw-600 font-xsss text-grey-700 mt-1 float-right">Forgot your
                             Password?</a>
                     </div> --}}
-                </form>
+                
 
                 <div class="col-sm-12 p-0 text-left">
-                    <div class="form-group mb-1"><a href="#"
-                            class="form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0 ">Login</a>
-                    </div>
+                <div class="form-group mb-1">
+                            <button type="submit" class="form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0 ">Login</button>
+                        </div>
                     <h6 class="text-grey-500 font-xsss fw-500 mt-0 mb-0 lh-32">Dont have account <a
                             href="{{ route('register') }}" class="fw-700 ms-1">Register</a></h6>
                 </div>
+                </form>
             </div>
         </div>
     </div>
