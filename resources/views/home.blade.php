@@ -257,61 +257,58 @@
                 </div>
 
                 <!-- Berdasarkan Kategori -->
-                <div class="card-body p-3 border-top-xs bor-0">
-                    <h4 class="fw-700 font-xss mb-3">Berdasarkan Kategori</h4>
+<div class="card-body p-3 border-top-xs bor-0">
+    <h4 class="fw-700 font-xss mb-3">Berdasarkan Kategori</h4>
 
-                    <!-- Infrastruktur -->
-                    <div class="d-flex align-items-center mb-3">
-                        <i class="feather-briefcase text-grey-500 me-3 font-lg"></i>
-                        <div>
-                            <h4 class="fw-600 text-grey-900 font-xssss mt-0">Infrastruktur</h4>
-                            <div class="d-flex">
-                                <a href="#"
-                                    class="btn btn-sm bg-primary-gradiant me-2 text-white font-xssss">PDF</a>
-                                <a href="#" class="btn btn-sm bg-primary-gradiant text-white font-xssss">Excel</a>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Infrastruktur -->
+    <div class="d-flex align-items-center mb-3">
+        <i class="feather-briefcase text-grey-500 me-3 font-lg"></i>
+        <div>
+            <h4 class="fw-600 text-grey-900 font-xssss mt-0">Infrastruktur</h4>
+            <div class="d-flex">
+                <a href="{{ route('exportpdf', ['categoryId' => 1]) }}" class="btn btn-sm bg-primary-gradiant me-2 text-white font-xssss">PDF</a>
+                <a href="{{ url('/export/1') }}" class="btn btn-sm bg-primary-gradiant text-white font-xssss">Excel</a>
+            </div>
+        </div>
+    </div>
 
-                    <!-- Sampah -->
-                    <div class="d-flex align-items-center mb-3">
-                        <i class="feather-trash-2 text-grey-500 me-3 font-lg"></i>
-                        <div>
-                            <h4 class="fw-600 text-grey-900 font-xssss mt-0">Sampah</h4>
-                            <div class="d-flex">
-                                <a href="#"
-                                    class="btn btn-sm bg-primary-gradiant me-2 text-white font-xssss">PDF</a>
-                                <a href="#" class="btn btn-sm bg-primary-gradiant text-white font-xssss">Excel</a>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Sampah -->
+    <div class="d-flex align-items-center mb-3">
+        <i class="feather-trash-2 text-grey-500 me-3 font-lg"></i>
+        <div>
+            <h4 class="fw-600 text-grey-900 font-xssss mt-0">Sampah</h4>
+            <div class="d-flex">
+                <a href="{{ route('exportpdf', ['categoryId' => 2]) }}" class="btn btn-sm bg-primary-gradiant me-2 text-white font-xssss">PDF</a>
+                <a href="{{ url('/export/2') }}" class="btn btn-sm bg-primary-gradiant text-white font-xssss">Excel</a>
+            </div>
+        </div>
+    </div>
 
-                    <!-- Lingkungan -->
-                    <div class="d-flex align-items-center mb-3">
-                        <i class="feather-sun text-grey-500 me-3 font-lg"></i>
-                        <div>
-                            <h4 class="fw-600 text-grey-900 font-xssss mt-0">Lingkungan</h4>
-                            <div class="d-flex">
-                                <a href="#"
-                                    class="btn btn-sm bg-primary-gradiant me-2 text-white font-xssss">PDF</a>
-                                <a href="#" class="btn btn-sm bg-primary-gradiant text-white font-xssss">Excel</a>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Lingkungan -->
+    <div class="d-flex align-items-center mb-3">
+        <i class="feather-sun text-grey-500 me-3 font-lg"></i>
+        <div>
+            <h4 class="fw-600 text-grey-900 font-xssss mt-0">Lingkungan</h4>
+            <div class="d-flex">
+                <a href="{{ route('exportpdf', ['categoryId' => 3]) }}" class="btn btn-sm bg-primary-gradiant me-2 text-white font-xssss">PDF</a>
+                <a href="{{ url('/export/3') }}" class="btn btn-sm bg-primary-gradiant text-white font-xssss">Excel</a>
+            </div>
+        </div>
+    </div>
 
-                    <!-- Lalu Lintas -->
-                    <div class="d-flex align-items-center">
-                        <i class="feather-navigation text-grey-500 me-3 font-lg"></i>
-                        <div>
-                            <h4 class="fw-600 text-grey-900 font-xssss mt-0">Lalu Lintas</h4>
-                            <div class="d-flex">
-                                <a href="#"
-                                    class="btn btn-sm bg-primary-gradiant me-2 text-white font-xssss">PDF</a>
-                                <a href="#" class="btn btn-sm bg-primary-gradiant text-white font-xssss">Excel</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Lalu Lintas -->
+    <div class="d-flex align-items-center">
+        <i class="feather-navigation text-grey-500 me-3 font-lg"></i>
+        <div>
+            <h4 class="fw-600 text-grey-900 font-xssss mt-0">Lalu Lintas</h4>
+            <div class="d-flex">
+                <a href="{{ route('exportpdf', ['categoryId' => 4]) }}" class="btn btn-sm bg-primary-gradiant me-2 text-white font-xssss">PDF</a>
+                <a href="{{ url('/export/4') }}" class="btn btn-sm bg-primary-gradiant text-white font-xssss">Excel</a>
+            </div>
+        </div>
+    </div>
+</div>
+
                 <!-- Berdasarkan Tahun -->
 
                 <!-- right chat -->

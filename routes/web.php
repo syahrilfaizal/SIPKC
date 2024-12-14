@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ReportController;
 use App\Models\Report;
+use App\Exports\ReportsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,3 +35,14 @@ Route::get('/register', function () {
     return view('auth.register'); // Mengarahkan ke login.blade.php
 })->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
+
+Route::get('/export/{categoryId}', function ($categoryId) {
+    return Excel::download(new ReportsExport($categoryId), 'reports.xlsx');
+});
+
+// Route CRUD standar
+Route::resource('reports', ReportController::class);
+
+// Route untuk ekspor PDF berdasarkan ID kategori
+Route::get('/exportpdf/{categoryId}', [ReportController::class, 'exportPDF'])->name('exportpdf');
+

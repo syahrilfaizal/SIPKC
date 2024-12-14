@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
 class Report extends Authenticatable
 {
@@ -50,3 +51,5 @@ class Report extends Authenticatable
         return $this->belongsToMany(Category::class, 'report_category', 'report_id', 'category_id');
     }
 }
+
+
