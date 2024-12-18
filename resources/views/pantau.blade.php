@@ -204,20 +204,29 @@
                                     <td class="ellipsis">{{ $report->desc }}</td>
                                     <td class="ellipsis">{{ $report->location }}</td>
                                     <td>
-                                        <form class="status-form" data-report-id="{{ $report->id }}">
-                                            @csrf
-                                            <select class="status-select" name="status" style="padding: 5px; border-radius: 5px; border: 1px solid #ccc;">
-                                                <option value="menunggu"
-                                                    {{ $report->status == 'menunggu' ? 'selected' : '' }}
-                                                    class="status-menunggu">Menunggu</option>
-                                                <option value="diproses"
-                                                    {{ $report->status == 'diproses' ? 'selected' : '' }}
-                                                    class="status-diproses">Diproses</option>
-                                                <option value="selesai"
-                                                    {{ $report->status == 'selesai' ? 'selected' : '' }}
-                                                    class="status-selesai">Selesai</option>
-                                            </select>
-                                        </form>
+                                        <div class="d-flex align-self-center">
+                                            <div class="rounded-circle d-flex align-items-center "
+                                                style="width: 20px; height: 20px; background-color: {{ $report->status == 'menunggu' ? '#ffc107' : ($report->status == 'diproses' ? '#0288d1' : '#2e7d32') }}">
+                                            </div>
+                                            <form class="status-form" data-report-id="{{ $report->id }}">
+                                                @csrf
+                                                <select class="status-select" name="status"
+                                                    style="padding: 5px; border-radius: 5px; border: 1px solid #ccc;">
+
+
+                                                    <option value="menunggu"
+                                                        {{ $report->status == 'menunggu' ? 'selected' : '' }}
+                                                        class="status-menunggu">Menunggu</option>
+                                                    <option value="diproses"
+                                                        {{ $report->status == 'diproses' ? 'selected' : '' }}
+                                                        class="status-diproses">Diproses</option>
+                                                    <option value="selesai"
+                                                        {{ $report->status == 'selesai' ? 'selected' : '' }}
+                                                        class="status-selesai">Selesai</option>
+                                                </select>
+                                            </form>
+                                        </div>
+
                                     </td>
 
                                     <td>
