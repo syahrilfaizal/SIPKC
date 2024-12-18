@@ -24,7 +24,7 @@ class ReportController extends Controller
         if ($request->has('categoryId') && !empty($request->input('categoryId'))) {
             $selectedCategory = Category::find($request->input('categoryId'));
             if ($selectedCategory) {
-                $reports = $reports->whereHas('categories', function($query) use ($selectedCategory) {
+                $reports = $reports->whereHas('categories', function ($query) use ($selectedCategory) {
                     $query->where('id', $selectedCategory->id);
                 });
             }
@@ -33,6 +33,50 @@ class ReportController extends Controller
         $reports = $reports->get();
 
         return view('home', compact('reports', 'categories', 'selectedCategory'));
+    }
+
+    public function pantau(Request $request)
+    {
+        $categories = Category::all(); // Untuk dropdown kategori
+
+        // Jika kategori dipilih melalui query parameter atau input
+        $selectedCategory = null;
+        $reports = Report::with('user', 'categories')->latest();
+
+        if ($request->has('categoryId') && !empty($request->input('categoryId'))) {
+            $selectedCategory = Category::find($request->input('categoryId'));
+            if ($selectedCategory) {
+                $reports = $reports->whereHas('categories', function ($query) use ($selectedCategory) {
+                    $query->where('id', $selectedCategory->id);
+                });
+            }
+        }
+
+
+
+        if (Auth::user()->role == 'admin') {
+            $reports = $reports->get();
+        } else {
+            $reports = $reports->where('user_id', Auth::user()->id)->get();
+        }
+
+        return view('pantau', compact('reports', 'categories', 'selectedCategory'));
+    }
+
+    public function updateStatus(Request $request, Report $report)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:menunggu,diproses,selesai',
+        ]);
+    
+        $report->update([
+            'status' => $validated['status']
+        ]);
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Status updated successfully'
+        ]);
     }
 
     /**
@@ -124,7 +168,7 @@ class ReportController extends Controller
     public function exportPDF($categoryId)
     {
         // Ambil data berdasarkan ID kategori
-        $reports = Report::whereHas('categories', function($query) use ($categoryId) {
+        $reports = Report::whereHas('categories', function ($query) use ($categoryId) {
             $query->where('id', $categoryId);
         })->with('categories', 'user')->get();
 

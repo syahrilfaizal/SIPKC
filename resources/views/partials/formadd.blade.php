@@ -79,7 +79,9 @@
     
     <form action="{{ route('reports.store') }}" method="post" enctype="multipart/form-data">
         @csrf
-        <div class="card-body p-0 mt-3 position-relative">
+        <label for="tags" class="font-xssss fw-600 text-grey-500">Description</label>
+        <div class="card-body p-0  position-relative">
+            
             <figure class="avatar position-absolute ms-2 mt-1 top-5">
                 <img src="images/user-8.png" alt="image" class="shadow-sm rounded-circle w30">
             </figure>
@@ -88,6 +90,7 @@
                 cols="30" rows="4" placeholder="Add a description..."></textarea>
         </div>
         <div class="card-body p-0 mt-3">
+            <label for="tags" class="font-xssss fw-600 text-grey-500">Image</label>
             <label class="custom-file-input"
                 style="display: flex; justify-content: center; align-items: center; border: 1px solid #ddd; padding: 10px; border-radius: 5px; cursor: pointer;">
                 <span id="fileLabel">Choose File</span>

@@ -20,15 +20,16 @@ use Maatwebsite\Excel\Facades\Excel;
 */
 
 Route::get('/', [ReportController::class, 'index'])->name('reports.index');
-
+Route::get('/pantau', [ReportController::class, 'pantau'])->name('pantau');
 Route::get('/form', [ReportController::class, 'create'])->name('form');
 Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
+Route::post('/reports/{report}/update-status', [ReportController::class, 'updateStatus'])->name('reports.updateStatus');
 
 
-Route::get('/login', function () {
+Route::get('/loginpage', function () {
     return view('auth.login'); // Mengarahkan ke login.blade.php
-})->name('login');
-Route::post('/login', [LoginController::class, 'login']);
+})->name('loginpage');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/register', function () {
@@ -45,4 +46,5 @@ Route::resource('reports', ReportController::class);
 
 // Route untuk ekspor PDF berdasarkan ID kategori
 Route::get('/exportpdf/{categoryId}', [ReportController::class, 'exportPDF'])->name('exportpdf');
+
 

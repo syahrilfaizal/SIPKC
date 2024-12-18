@@ -1,7 +1,7 @@
 @extends('layout.app')
 
 @section('title', 'Home')
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
 
 @section('content')
     <div class="middle-sidebar-bottom">
@@ -83,11 +83,11 @@
                     </div>
 
                     <div class="card-body d-block p-0">
-                        <div class="row ps-2 pe-2 max-h-s">
+                        <div class="row ps-2 pe-2" style="max-height: 300px; overflow-y: auto;">
                             @if ($report->image_url)
-                                <div class="p-1 ">
+                                <div class="p-1">
                                     <a href="{{ asset($report->image_url) }}" data-lightbox="roadtrip">
-                                        <img src="{{ asset('storage/' . $report->image_url) }}" class="rounded-3 w-100 "
+                                        <img src="{{ asset('storage/' . $report->image_url) }}" class="rounded-3 w-100"
                                             alt="image">
                                     </a>
                                 </div>

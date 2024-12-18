@@ -12,18 +12,33 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('form') }}" class="nav-content-bttn open-font">
-                            <i class="feather-edit btn-round-md bg-red-gradiant me-3"></i>
-                            <span>Post Pengaduan</span>
-                        </a>
-
+                        @if (Auth::check())
+                            <a href="{{ route('form') }}" class="nav-content-bttn open-font">
+                                <i class="feather-edit btn-round-md bg-red-gradiant me-3"></i>
+                                <span>Post Pengaduan</span>
+                            </a>
+                        @else
+                            <a href="{{ route('loginpage')}}" class="nav-content-bttn open-font" >
+                                <i class="feather-edit btn-round-md bg-red-gradiant me-3"></i>
+                                <span>Post Pengaduan</span>
+                            </a>
+                        @endif
+                    </li>
 
                     <li>
-                        <a href="default.html" class="nav-content-bttn open-font">
-                            <i class="feather-eye btn-round-md bg-gold-gradiant me-3"></i>
-                            <span>Pantau Laporan</span>
-                        </a>
+                        @if (Auth::check())
+                            <a href="{{ route('pantau') }}" class="nav-content-bttn open-font">
+                                <i class="feather-eye btn-round-md bg-gold-gradiant me-3"></i>
+                                <span>Pantau Laporan</span>
+                            </a>
+                        @else
+                            <a href="{{ route('login')}}" class="nav-content-bttn open-font" >
+                                <i class="feather-eye btn-round-md bg-gold-gradiant me-3"></i>
+                                <span>Pantau Laporan</span>
+                            </a>
+                        @endif
                     </li>
+
                 </ul>
             </div>
 
@@ -39,3 +54,4 @@
         </div>
     </div>
 </nav>
+
