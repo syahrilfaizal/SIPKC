@@ -82,102 +82,86 @@
 
             @if (auth()->user()->role !== 'admin')
 
-                @foreach ($reports as $report)
-                    <div class="card w-100 shadow-xss rounded-xxl border-0 p-4 mb-3">
-                        <div class="card-body p-0 d-flex">
-                            <figure class="avatar me-3">
-                                <img src="{{ asset('images/user-7.png') }}" alt="image"
-                                    class="shadow-sm rounded-circle w45">
-                            </figure>
-                            <h4 class="fw-700 text-grey-900 font-xssss mt-1">
-                                {{ $report->user->name }}
-                                <span class="d-block font-xssss fw-500 mt-1 lh-3 text-grey-500">
-                                    {{ $report->created_at->diffForHumans() }}
-                                </span>
-                            </h4>
-                            <div class="flex-grow-1 d-flex flex-row-reverse ms-auto">
-                                <div class=" fw-600 btn position-relative text-grey-900  text-dark  font-xs">
-                                    <div
-                                        class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-success">
-                                        {{ $report->status }}
-                                    </div>
+            @foreach ($reports as $report)
+                <div class="card w-100 shadow-xss rounded-xxl border-0 p-4 mb-3">
+                    <div class="card-body p-0 d-flex">
+                        <figure class="avatar me-3">
+                            <img src="{{ asset('images/user-7.png') }}" alt="image" class="shadow-sm rounded-circle w45">
+                        </figure>
+                        <h4 class="fw-700 text-grey-900 font-xssss mt-1">
+                            {{ $report->user->name }}
+                            <span class="d-block font-xssss fw-500 mt-1 lh-3 text-grey-500">
+                                {{ $report->created_at->diffForHumans() }}
+                            </span>
+                        </h4>
+                        <div class="flex-grow-1 d-flex flex-row-reverse ms-auto">
+                            <div class="fw-600 btn position-relative text-grey-900 text-dark font-xs">
+                                <div class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-success">
+                                    {{ $report->status }}
                                 </div>
                             </div>
-                            <a href="#" class="ms-auto" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="ti-more-alt text-grey-900 btn-round-md bg-greylight font-xss"></i>
-                            </a>
+                        </div>
+                        <a href="#" class="ms-auto" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="ti-more-alt text-grey-900 btn-round-md bg-greylight font-xss"></i>
+                        </a>
 
-                            <div class="dropdown-menu dropdown-menu-end p-4 rounded-xxl border-0 shadow-lg">
-                                <div class="card-body p-0 d-flex">
-                                    <i class="feather-bookmark text-grey-500 me-3 font-lg"></i>
-                                    <h4 class="fw-600 text-grey-900 font-xssss mt-0 me-4">Save Link</h4>
-                                </div>
-                                <!-- Tambahkan opsi lainnya di sini -->
+                        {{-- <div class="dropdown-menu dropdown-menu-end p-4 rounded-xxl border-0 shadow-lg">
+                            <div class="card-body p-0 d-flex">
+                                <i class="feather-bookmark text-grey-500 me-3 font-lg"></i>
+                                <h4 class="fw-600 text-grey-900 font-xssss mt-0 me-4">Save Link</h4>
                             </div>
-                        </div>
-                        <div class="card-body p-0">
+                            <!-- Tambahkan opsi lainnya di sini -->
+                        </div> --}}
+                    </div>
+                    <div class="card-body p-0">
+                        @foreach ($report->categories as $category)
+                            <span class="badge rounded-pill bg-primary-gradiant me-2">{{ $category->name }}</span>
+                        @endforeach
+                    </div>
 
-                            @foreach ($report->categories as $category)
-                                <span class="badge rounded-pill bg-primary-gradiant me-2">{{ $category->name }}</span>
-                            @endforeach
+                    <div class="card-body p-0 me-lg-5">
+                        <p class="fw-500 lh-26 font-xssss w-100">
+                            {{ $report->desc }}
+                        </p>
+                    </div>
 
-                        </div>
-
-                        <div class="card-body p-0 me-lg-5">
-                            <p class="fw-500  lh-26 font-xssss w-100">
-                                {{ $report->desc }}
-                            </p>
-                        </div>
-
-                        <div class="card-body d-block p-0">
-                            <div class="row ps-2 pe-2" style="max-height: 300px; overflow-y: auto;">
-                                @if ($report->image_url)
-                                    <div class="p-1">
-                                        <a href="{{ asset($report->image_url) }}" data-lightbox="roadtrip">
-                                            <img src="{{ asset('storage/' . $report->image_url) }}" class="rounded-3 w-100"
-                                                alt="image">
-                                        </a>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="card-body d-flex p-0 mt-3">
-                            <a href="#"
-                                class="emoji-bttn d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2">
-                                <i class="feather-thumbs-up text-white bg-primary-gradiant me-1 btn-round-xs font-xss"></i>
-                                <i class="feather-heart text-white bg-red-gradiant me-2 btn-round-xs font-xss"></i>
-                                2.8K Like
-                            </a>
-                            <a href="#"
-                                class="d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss">
-                                <i class="feather-message-circle text-dark text-grey-900 btn-round-sm font-lg"></i>
-                                <span class="d-none-xss">22 Comment</span>
-                            </a>
-                            <a href="#"
-                                class="location-btn ms-auto d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss"
-                                data-lat="{{ $report->lat }}" data-lng="{{ $report->lng }}">
-                                <i class="feather-share-2 text-grey-900 text-dark btn-round-sm font-lg"></i>
-                                <span class="d-none-xs">Lokasi</span>
-                            </a>
-                            {{-- <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="mapModalLabel">Lokasi Laporan</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div id="map" style="height: 400px;"></div>
-                                        </div>
-                                    </div>
+                    <div class="card-body d-block p-0">
+                        <div class="row ps-2 pe-2" style="max-height: 300px; overflow-y: auto;">
+                            @if ($report->image_url)
+                                <div class="p-1">
+                                    <a href="{{ asset($report->image_url) }}" data-lightbox="roadtrip">
+                                        <img src="{{ asset('storage/' . $report->image_url) }}" class="rounded-3 w-100"
+                                            alt="image">
+                                    </a>
                                 </div>
-                            </div> --}}
+                            @endif
                         </div>
                     </div>
-                @endforeach
+                    <div class="card-body p-0 me-lg-5">
+                        <p class="fw-500  lh-26 font-xssss w-100">
+                            {{ $report->location }}
+                        </p>
+                    </div>
+
+                    <div class="card-body d-flex p-0 mt-3">
+                        <a href="#"
+                            class="emoji-bttn d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2 like-btn"
+                            data-report-id="{{ $report->id }}"
+                            data-is-liked="{{ $report->likes->where('user_id', auth()->id())->count() > 0 }}">
+                            <i
+                                class="feather-heart me-2 btn-round-xs font-xss {{ $report->likes->where('user_id', auth()->id())->count() > 0 ? 'bg-red-gradiant text-white' : 'bg-white text-grey-900' }}"></i>
+                            <span class="like-count ms-2 text-grey-600">{{ $report->likes()->count() }}</span>
+                        </a>
+
+                        {{-- {{-- <a href="#"
+                            class="location-btn ms-auto d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss"
+                            data-lat="{{ $report->lat }}" data-lng="{{ $report->lng }}">
+                            <i class="feather-share-2 text-grey-900 text-dark btn-round-sm font-lg"></i>
+                            <span class="d-none-xs">Lokasi</span>
+                        </a> --}}
+                    </div>
+                </div>
+            @endforeach
             @else
                 <div class="card w-100 shadow-xss rounded-xxl border-0 p-4 mb-3">
                     <div class="card-body p-0">

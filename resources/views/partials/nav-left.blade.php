@@ -44,7 +44,11 @@
                                 <i class="feather-heart btn-round-md bg-red-gradiant me-3"></i>
                                 <span>Yang disukai</span>
                             </a>
-                        
+                            @elseif (!Auth::check())
+                            <a href="{{ route('loginpage')}}" class="nav-content-bttn open-font" >
+                                <i class="feather-heart btn-round-md bg-red-gradiant me-3"></i>
+                                <span>Yang disukai</span>
+                            </a>
                         @endif
                     </li>
 
@@ -56,8 +60,18 @@
                 <div class="nav-caption fw-600 font-xssss text-grey-500"><span></span> Account</div>
                 <ul class="mb-1">
                     <li class="logo d-none d-xl-block d-lg-block"></li>
-                    <li><a href="default.html" class="nav-content-bttn open-font h-auto pt-2 pb-2"><i
-                                class="font-sm feather-settings me-3 text-grey-500"></i><span>Settings</span></a></li>
+                    @if (Auth::check())
+                        <li><a href="{{ route('logout') }}" class="nav-content-bttn open-font h-auto pt-2 pb-2" onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();"><i
+                                    class="font-sm feather-log-out me-3 text-grey-500"></i><span>Logout</span></a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </li>
+                    @else
+                        <li><a href="{{ route('loginpage') }}" class="nav-content-bttn open-font h-auto pt-2 pb-2"><i
+                                    class="font-sm feather-log-out me-3 text-grey-500"></i><span>Login</span></a></li>
+                    @endif
                 </ul>
             </div>
         </div>
