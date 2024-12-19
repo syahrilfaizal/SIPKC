@@ -193,7 +193,7 @@
                                 <th>Description</th>
                                 <th>Location</th>
                                 <th>Status</th>
-
+                                <th>Category</th>
                                 <th>Image</th>
                             </tr>
                         </thead>
@@ -206,7 +206,7 @@
                                     <td>
                                         <div class="d-flex align-self-center">
                                             <div class="rounded-circle d-flex align-items-center "
-                                                style="width: 20px; height: 20px; background-color: {{ $report->status == 'menunggu' ? '#ffc107' : ($report->status == 'diproses' ? '#0288d1' : '#2e7d32') }}">
+                                                style="width: 20px; height: 20px; background-color: {{ $report->status == 'menunggu' ? 'red' : ($report->status == 'diproses' ? 'yellow' : 'green') }}">
                                             </div>
                                             <form class="status-form" data-report-id="{{ $report->id }}">
                                                 @csrf
@@ -227,6 +227,12 @@
                                             </form>
                                         </div>
 
+                                    </td>
+                                    <td>
+                                        @foreach ($report->categories as $category)
+                                            <span
+                                                class="badge rounded-pill bg-primary-gradiant me-2">{{ $category->name }}</span>
+                                        @endforeach
                                     </td>
 
                                     <td>

@@ -30,7 +30,7 @@ class ReportController extends Controller
             }
         }
 
-        $reports = $reports->get();
+        $reports = $reports->where('status', '!=', 'selesai')->get();
 
         return view('home', compact('reports', 'categories', 'selectedCategory'));
     }

@@ -60,13 +60,13 @@
                             <i class="ti-more-alt text-grey-900 btn-round-md bg-greylight font-xss"></i>
                         </a>
 
-                        {{-- <div class="dropdown-menu dropdown-menu-end p-4 rounded-xxl border-0 shadow-lg">
+                        <div class="dropdown-menu dropdown-menu-end p-4 rounded-xxl border-0 shadow-lg">
                             <div class="card-body p-0 d-flex">
                                 <i class="feather-bookmark text-grey-500 me-3 font-lg"></i>
                                 <h4 class="fw-600 text-grey-900 font-xssss mt-0 me-4">Save Link</h4>
                             </div>
                             <!-- Tambahkan opsi lainnya di sini -->
-                        </div> --}}
+                        </div>
                     </div>
                     <div class="card-body p-0">
 
@@ -94,26 +94,24 @@
                             @endif
                         </div>
                     </div>
-                    <div class="card-body p-0 me-lg-5">
-                        <p class="fw-500  lh-26 font-xssss w-100">
-                            {{ $report->location }}
-                        </p>
-                    </div>
 
                     <div class="card-body d-flex p-0 mt-3">
                         <a href="#"
                             class="emoji-bttn d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2">
                             {{-- <i class="feather-thumbs-up text-white bg-primary-gradiant me-1 btn-round-xs font-xss"></i> --}}
                             <i class="feather-heart text-white bg-red-gradiant me-2 btn-round-xs font-xss"></i>
-                            2 Like
+                             Like
                         </a>
-                        
-                        {{-- <a href="#"
+                        <a href="#" class="d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss">
+                            <i class="feather-message-circle text-dark text-grey-900 btn-round-sm font-lg"></i>
+                            <span class="d-none-xss">22 Comment</span>
+                        </a>
+                        <a href="#"
                             class="location-btn ms-auto d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss"
                             data-lat="{{ $report->lat }}" data-lng="{{ $report->lng }}">
                             <i class="feather-share-2 text-grey-900 text-dark btn-round-sm font-lg"></i>
                             <span class="d-none-xs">Lokasi</span>
-                        </a> --}}
+                        </a>
                         <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog modal-lg">

@@ -12,12 +12,12 @@
                         </a>
                     </li>
                     <li>
-                        @if (Auth::check())
+                        @if (Auth::check() && auth()->user()->role !== 'admin')
                             <a href="{{ route('form') }}" class="nav-content-bttn open-font">
                                 <i class="feather-edit btn-round-md bg-red-gradiant me-3"></i>
                                 <span>Post Pengaduan</span>
                             </a>
-                        @else
+                        @elseif (!Auth::check())
                             <a href="{{ route('loginpage')}}" class="nav-content-bttn open-font" >
                                 <i class="feather-edit btn-round-md bg-red-gradiant me-3"></i>
                                 <span>Post Pengaduan</span>
@@ -32,9 +32,22 @@
                                 <span>Pantau Laporan</span>
                             </a>
                         @else
-                            <a href="{{ route('login')}}" class="nav-content-bttn open-font" >
+                            <a href="{{ route('loginpage')}}" class="nav-content-bttn open-font" >
                                 <i class="feather-eye btn-round-md bg-gold-gradiant me-3"></i>
                                 <span>Pantau Laporan</span>
+                            </a>
+                        @endif
+                    </li>
+                    <li>
+                        @if (Auth::check())
+                            <a href="{{ route('pantau') }}" class="nav-content-bttn open-font">
+                                <i class="feather-heart btn-round-md bg-red-gradiant me-3"></i>
+                                <span>Yang disukai</span>
+                            </a>
+                        @else
+                            <a href="{{ route('loginpage')}}" class="nav-content-bttn open-font" >
+                                <i class="feather-heart btn-round-md bg-gold-gradiant me-3"></i>
+                                <span>Yang disukai</span>
                             </a>
                         @endif
                     </li>

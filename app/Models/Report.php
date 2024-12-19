@@ -50,6 +50,10 @@ class Report extends Authenticatable
     public function categories(){
         return $this->belongsToMany(Category::class, 'report_category', 'report_id', 'category_id');
     }
+
+    public function Likes(){
+        return $this->hasMany(ReportLike::class);
+    }
 }
 
 
