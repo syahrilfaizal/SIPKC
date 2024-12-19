@@ -46,5 +46,5 @@ Route::resource('reports', ReportController::class);
 
 // Route untuk ekspor PDF berdasarkan ID kategori
 Route::get('/exportpdf/{categoryId}', [ReportController::class, 'exportPDF'])->name('exportpdf');
-
+Route::get('/export/{id}', [ExportController::class, 'exportExcel'])->name('exportexcel');
 

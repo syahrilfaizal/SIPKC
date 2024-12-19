@@ -26,6 +26,9 @@ $app = new Illuminate\Foundation\Application(
 |
 */
 
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
+
+
 $app->singleton(
     Illuminate\Contracts\Http\Kernel::class,
     App\Http\Kernel::class

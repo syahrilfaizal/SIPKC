@@ -165,7 +165,7 @@ class ReportController extends Controller
      * @param  int  $categoryId
      * @return \Illuminate\Http\Response
      */
-    public function exportPDF($categoryId)
+    public function exportpdf($categoryId)
     {
         // Ambil data berdasarkan ID kategori
         $reports = Report::whereHas('categories', function ($query) use ($categoryId) {
@@ -173,18 +173,19 @@ class ReportController extends Controller
         })->with('categories', 'user')->get();
 
         // Ambil nama kategori untuk judul dan nama file
-        $category = Category::find($categoryId)->name ?? 'Unknown';
+        $category = Category::find($categoryId);
+        $categoryName = $category ? $category->name : 'Unknown';
 
         // Data yang akan dikirim ke view
         $data = [
             'reports' => $reports,
-            'category' => $category,
+            'category' => $categoryName,
         ];
 
         // Load view dan generate PDF
         $pdf = PDF::loadView('reports.pdf', $data)->setPaper('a4', 'landscape');
 
         // Download PDF dengan nama file yang sesuai
-        return $pdf->download('report_' . $category . '.pdf');
+        return $pdf->download('report_' . $categoryName . '.pdf');
     }
 }
