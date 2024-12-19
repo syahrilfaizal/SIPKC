@@ -24,7 +24,8 @@ Route::get('/pantau', [ReportController::class, 'pantau'])->name('pantau');
 Route::get('/form', [ReportController::class, 'create'])->name('form');
 Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
 Route::post('/reports/{report}/update-status', [ReportController::class, 'updateStatus'])->name('reports.updateStatus');
-
+Route::post('/reports/{report}/like', [ReportController::class, 'like'])->name('report.like');
+Route::get('/likepage', [ReportController::class, 'likepage'])->name('report.likepage');
 
 Route::get('/loginpage', function () {
     return view('auth.login'); // Mengarahkan ke login.blade.php
@@ -46,5 +47,5 @@ Route::resource('reports', ReportController::class);
 
 // Route untuk ekspor PDF berdasarkan ID kategori
 Route::get('/exportpdf/{categoryId}', [ReportController::class, 'exportPDF'])->name('exportpdf');
-
+Route::get('/export/{id}', [ExportController::class, 'exportExcel'])->name('exportexcel');
 

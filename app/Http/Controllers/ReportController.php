@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Report;
 use App\Models\Category;
+use App\Models\ReportLike;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PDF;
@@ -133,6 +134,64 @@ class ReportController extends Controller
     public function show(Report $report)
     {
         //
+    }
+
+    public function like(Report $report)
+    {
+        $user = auth()->user();
+        $existing_like = ReportLike::where('user_id', $user->id)
+                                  ->where('report_id', $report->id)
+                                  ->first();
+    
+        if ($existing_like) {
+            // Unlike - delete the like record
+            $existing_like->delete();
+            $isLiked = false;
+        } else {
+            // Like - create new like record
+            ReportLike::create([
+                'user_id' => $user->id,
+                'report_id' => $report->id
+            ]);
+            $isLiked = true;
+        }
+    
+        // Get updated like count
+        $likeCount = $report->likes()->count();
+    
+        return response()->json([
+            'success' => true,
+            'isLiked' => $isLiked,
+            'likeCount' => $likeCount
+        ]);
+    }
+
+    public function likepage(Request $request)
+    {
+        $user = auth()->user();
+        $categories = Category::all();
+        $selectedCategory = null;
+    
+        // Start with reports that the user has liked
+        $reports = Report::with('user', 'categories')
+            ->whereHas('likes', function($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->latest();
+    
+        // Apply category filter if selected
+        if ($request->has('categoryId') && !empty($request->input('categoryId'))) {
+            $selectedCategory = Category::find($request->input('categoryId'));
+            if ($selectedCategory) {
+                $reports = $reports->whereHas('categories', function ($query) use ($selectedCategory) {
+                    $query->where('id', $selectedCategory->id);
+                });
+            }
+        }
+    
+        $reports = $reports->where('status', '!=', 'selesai')->get();
+    
+        return view('like', compact('reports', 'categories', 'selectedCategory'));
     }
 
     /**

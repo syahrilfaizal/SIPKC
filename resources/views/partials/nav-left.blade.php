@@ -39,16 +39,12 @@
                         @endif
                     </li>
                     <li>
-                        @if (Auth::check())
-                            <a href="{{ route('pantau') }}" class="nav-content-bttn open-font">
+                        @if (Auth::check() && auth()->user()->role !== 'admin')
+                            <a href="{{ route('report.likepage') }}" class="nav-content-bttn open-font">
                                 <i class="feather-heart btn-round-md bg-red-gradiant me-3"></i>
                                 <span>Yang disukai</span>
                             </a>
-                        @else
-                            <a href="{{ route('loginpage')}}" class="nav-content-bttn open-font" >
-                                <i class="feather-heart btn-round-md bg-gold-gradiant me-3"></i>
-                                <span>Yang disukai</span>
-                            </a>
+                        
                         @endif
                     </li>
 

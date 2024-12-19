@@ -59,7 +59,7 @@
                         <div class="form-group mb-1">
                             <button type="submit" class="form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0 ">Register</button>
                         </div>
-                        <h6 class="text-grey-500 font-xsss fw-500 mt-0 mb-0 lh-32">Already have account <a href="{{ route('login') }}" class="fw-700 ms-1">Login</a></h6>
+                        <h6 class="text-grey-500 font-xsss fw-500 mt-0 mb-0 lh-32">Already have account <a href="{{ route('loginpage') }}" class="fw-700 ms-1">Login</a></h6>
                     </div>
 
                 </form>
